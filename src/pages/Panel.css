@@ -1,0 +1,19 @@
+.panel-container {
+    display: flex;
+  }
+  
+  .panel-content {
+    margin-left: 200px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .panel-content h2 {
+    margin-top: 0;
+  }
+  
+  .panel-content p {
+    margin: 20px 0;
+  }
+  

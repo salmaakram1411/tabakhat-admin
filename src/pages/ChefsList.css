@@ -1,0 +1,55 @@
+.chefs-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .chefs-list-table th,
+  .chefs-list-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .chefs-list-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .chefs-list-table td a {
+    color: #1a73e8;
+    text-decoration: none;
+  }
+  
+  .chefs-list-table td a:hover {
+    text-decoration: underline;
+  }
+  
+  .chefs-list-table button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .chefs-list-table button:hover {
+    opacity: 0.8;
+  }
+  
+  .chefs-list-table button:first-of-type {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .chefs-list-table button:last-of-type {
+    background-color: #ffa500;
+    color: white;
+  }
+  
+  .chef-picture {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  

@@ -1,0 +1,48 @@
+.pending-chefs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .pending-chefs-table th,
+  .pending-chefs-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .pending-chefs-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .pending-chefs-table td a {
+    color: #1a73e8;
+    text-decoration: none;
+  }
+  
+  .pending-chefs-table td a:hover {
+    text-decoration: underline;
+  }
+  
+  .pending-chefs-table button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .pending-chefs-table button:hover {
+    opacity: 0.8;
+  }
+  
+  .pending-chefs-table button:first-of-type {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .pending-chefs-table button:last-of-type {
+    background-color: #f44336;
+    color: white;
+  }
+  
