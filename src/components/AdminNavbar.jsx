@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './SideNavbar.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUtensils, faAddressCard, faCartShopping, faSpinner, faCartPlus, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUtensils, faAddressCard, faCartShopping, faSpinner, faCartPlus, faPlus, faSignOutAlt, faHouse } from '@fortawesome/free-solid-svg-icons';
 
 const AdminNavbar = () => {
   return (
@@ -17,7 +17,7 @@ const AdminNavbar = () => {
         </li>
         <li>
           <Link to="/admin/home">
-            <FontAwesomeIcon icon={faUser} className="navbar-icon" />
+            <FontAwesomeIcon icon={faHouse} className="navbar-icon" />
             <span className="nav-icons">Home</span>
           </Link>
         </li>

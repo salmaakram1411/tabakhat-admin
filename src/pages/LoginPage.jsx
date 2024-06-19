@@ -11,7 +11,7 @@ const LoginPage = () => {
     if (username === 'sama' && password === '111') {
       navigate('/chef');
     } else if (username === 'salma' && password === '000') {
-      navigate('/admin');
+      navigate('/admin/home');
     } else {
       alert('Invalid credentials!');
     }

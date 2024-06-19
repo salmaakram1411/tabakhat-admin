@@ -1,47 +1,84 @@
+/* Container for the entire page */
+.main-container {
+  display: flex;
+}
+
+/* Main content of the homepage */
 .home-page {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
+  flex: 1;
+  padding: 20px;
+}
+
+/* Container for the boxes */
+.boxs-container {
+  margin: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center; /* Center the boxes */
+}
+
+/* Styling for each box */
+.box {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 40px;
+  padding: 20px;
+  width: 280px; /* Fixed width for better alignment */
+  box-sizing: border-box;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Content inside each box */
+.box-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Styling for the number inside each box */
+.box-number {
+  font-size: 36px;
+  font-weight: bold;
+  color: var(--main-color);
+}
+
+/* Styling for the descriptive text inside each box */
+.box-text {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #6c757d;
+}
+
+/* Styling for the button inside each box */
+.box-button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: var(--main-color);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  justify-content: center;
+}
+
+.box-button:hover {
+  background: var(--font-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .boxes-container {
+    justify-content: center;
+    align-items: center;
   }
-  
-  .box {
-    width: 300px;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
-  
-  .box-content {
-    text-align: center;
-  }
-  
-  .box-number {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .box-text {
-    font-size: 18px;
-    color: #666;
-    margin-top: 10px;
-  }
-  
-  .box-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-  
-  .box-button:hover {
-    background-color: #0056b3;
-  }
-  
+}
+
+

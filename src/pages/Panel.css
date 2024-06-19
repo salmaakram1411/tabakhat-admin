@@ -1,19 +1,164 @@
-.panel-container {
-    display: flex;
-  }
-  
-  .panel-content {
-    margin-left: 200px;
-    padding: 20px;
+/* Panel.css */
+
+/* Main container styles */
+.main-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Admin panel page styles */
+.admin-panel-page {
+  flex: 1;
+  padding: 20px;
+}
+.adminpanel-boxes{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* PageHeader component styles (assuming its own CSS) */
+
+/* Profile box styles */
+.profile-box {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* Adjust as needed */
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-box h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #343a40;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 20px;
+}
+
+/* Details box styles */
+.details-box {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 600px; /* Adjust as needed */
+  margin-bottom: 20px;
+}
+
+.details-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.details-label {
+  width: 150px;
+  font-weight: bold;
+  color: #495057;
+}
+
+.details-value {
+  flex: 1;
+  color: #6c757d;
+}
+
+/* Edit popup styles */
+.edit-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 100%;
+  max-width: 400px; /* Adjust as needed */
+}
+
+.edit-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #343a40;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button[type="submit"] {
+  background-color: #28a745;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  opacity: 0.8;
+}
+
+button[type="button"] {
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+
+@media (max-width: 768px){
+  .adminpanel-boxes {
     width: 100%;
-    box-sizing: border-box;
+    padding: 0 10px;
+    align-items: flex-start; /* Adjust alignment for smaller screens */
   }
-  
-  .panel-content h2 {
-    margin-top: 0;
+  .profile-box {
+    flex-direction: column;
+    align-items: flex-start; /* Adjust alignment for smaller screens */
+    text-align: center;
   }
-  
-  .panel-content p {
-    margin: 20px 0;
-  }
-  
+
+}

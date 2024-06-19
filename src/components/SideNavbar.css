@@ -1,5 +1,5 @@
 .side-navbar {
-  position: absolute;
+  position: fixed; /* Change from absolute to fixed */
   top: 0;
   bottom: 0;
   height: 100%;
@@ -9,6 +9,7 @@
   overflow: hidden;
   transition: width 0.2s linear;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.389);
+  z-index: 1000; /* Ensure the sidebar stays above other content */
 }
 
 .logo {
@@ -58,7 +59,7 @@ a {
 
 .side-navbar:hover .nav-icons {
   display: inline;
-  color: var(--main-color)
+  color: var(--main-color);
 }
 
 a:hover {
@@ -78,41 +79,3 @@ a:hover {
   width: 100%;
 }
 
-
-
-
-
-  
-  
-  /*.side-navbar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .side-navbar li {
-    padding: 8px;
-    text-align: center;
-  }
-  
-  .side-navbar li a {
-    text-decoration: none;
-    color: white;
-    display: block;
-  }
-  
-  .side-navbar li a:hover {
-    background-color: #575757;
-  }
-  
-  .panel-container {
-    display: flex;
-  }
-  
-  .panel-content {
-    margin-left: 200px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    height: 100vh;
-    overflow-y: auto;
-  }*/
-  
