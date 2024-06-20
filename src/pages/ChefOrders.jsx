@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ChefNavbar from '../components/ChefNavbar';
+import PageHeader from "../components/PageHeader";
 import './Orders.css';
 
 const ChefOrders = () => {
@@ -22,11 +23,14 @@ const ChefOrders = () => {
   }, []);
 
   return (
-    <div className="panel-container">
-      <ChefNavbar />
-      <div className="panel-content">
+    <div className='main-container'>
+    <ChefNavbar />
+    <div className='header-container'>
+      <PageHeader pageTitle="Users" />
+    </div>
+      <div className="all-orders">
         <h2>Chef Orders</h2>
-        <table className="orders-table">
+        <table className="all-orders-table">
           <thead>
             <tr>
               <th>Chef Name</th>

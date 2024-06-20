@@ -11,7 +11,6 @@ const AdminNavbar = () => {
       <ul>
         <li>
           <Link to="#s" className="logo">
-           
             <span className="nav-icons">Admin Dashboard</span>
           </Link>
         </li>

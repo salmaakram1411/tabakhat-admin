@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import ChefNavbar from '../components/ChefNavbar';
+import PageHeader from "../components/PageHeader";
 import './ChefMenu.css';
 import pancakeImage from '../assets/fish.jpg'; // Example image import
 
-const  ChefMenu = () => {
+const ChefMenu = () => {
   // Sample initial data for menu sections and items
   const initialMenu = {
     breakfast: [
@@ -81,8 +82,6 @@ const  ChefMenu = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform validation if needed
-    // For simplicity, let's assume validation passes
     const updatedMenu = { ...menu };
 
     if (modalMode === 'add') {
@@ -106,9 +105,20 @@ const  ChefMenu = () => {
     closeModal();
   };
 
+  const handleRemove = (section, id) => {
+    const updatedMenu = {
+      ...menu,
+      [section]: menu[section].filter(item => item.id !== id)
+    };
+    setMenu(updatedMenu);
+  };
+
   return (
-    <div className="menu-page">
-      <ChefNavbar />
+    <div className='main-container'>
+    <ChefNavbar />
+    <div className='header-container'>
+      <PageHeader pageTitle="Users" />
+    </div>
       <h1>Chef's Menu</h1>
 
       {/* Render sections and items */}
@@ -137,8 +147,8 @@ const  ChefMenu = () => {
                     <img src={item.image} alt={item.name} className="menu-item-image" />
                   </td>
                   <td>
-                    <button onClick={() => openModal('edit', item)}>Edit</button>
-                    {/* Add delete functionality if needed */}
+                    <button className='chef-editRemove' onClick={() => openModal('edit', item)}>Edit</button>
+                    <button className='chef-editRemove' onClick={() => handleRemove(section, item.id)}>Remove</button>
                   </td>
                 </tr>
               ))}
@@ -182,6 +192,7 @@ const  ChefMenu = () => {
 };
 
 export default ChefMenu;
+
 
 
 

@@ -1,31 +1,26 @@
-/* Container for the entire page */
-.main-container {
-  display: flex;
-}
 
-/* Main content of the homepage */
 .home-page {
   flex: 1;
   padding: 20px;
 }
 
-/* Container for the boxes */
+
 .boxs-container {
   margin: 50px;
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  justify-content: center; /* Center the boxes */
+  justify-content: center;
 }
 
-/* Styling for each box */
+
 .box {
   background: #ffffff;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 40px;
   padding: 20px;
-  width: 280px; /* Fixed width for better alignment */
+  width: 280px; 
   box-sizing: border-box;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -36,28 +31,28 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Content inside each box */
+
 .box-content {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Styling for the number inside each box */
+
 .box-number {
   font-size: 36px;
   font-weight: bold;
   color: var(--main-color);
 }
 
-/* Styling for the descriptive text inside each box */
+
 .box-text {
   margin-top: 10px;
   font-size: 18px;
   color: #6c757d;
 }
 
-/* Styling for the button inside each box */
+
 .box-button {
   margin-top: 15px;
   padding: 10px 20px;
@@ -73,7 +68,7 @@
   background: var(--font-color);
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .boxes-container {
     justify-content: center;

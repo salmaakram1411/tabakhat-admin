@@ -45,10 +45,12 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="main-container">
+    <div className='main-container'>
       <AdminNavbar />
+      <div className='header-container'>
+        <PageHeader pageTitle="Users" />
+      </div>
       <div className="home-page">
-        <PageHeader  />
         <div className="boxs-container">
           <div className="box">
             <div className="box-content">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
-import './Orders.css';
+import PageHeader from "../components/PageHeader";
+import './TotalOrders.css';
 
 const TotalOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -22,11 +23,14 @@ const TotalOrders = () => {
   }, []);
 
   return (
-    <div className="panel-container">
-      <AdminNavbar />
-      <div className="panel-content">
-        <h2>Total Orders</h2>
-        <table className="orders-table">
+    <div className='main-container'>
+    <AdminNavbar />
+    <div className='header-container'>
+      <PageHeader pageTitle="Users" />
+    </div>
+      <div className="complete-orders">
+        <h2>Complete Orders</h2>
+        <table className="complete-orders-table">
           <thead>
             <tr>
               <th>Chef Name</th>

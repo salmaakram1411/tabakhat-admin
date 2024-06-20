@@ -34,11 +34,14 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="main-container">
-      <AdminNavbar />
-      <div className="admin-panel-page">
-        <PageHeader />
-      <div className="adminpanel-boxes">
+    <div className='main-container'>
+    <AdminNavbar />
+    <div className='header-container'>
+      <PageHeader pageTitle="Users" />
+    </div>
+      <div className="Dasboard-panel-page">
+       
+      <div className="Dashboardpanel-boxes">
         <div className="profile-box">
           <h2>{adminDetails.name}</h2>
           <FontAwesomeIcon
@@ -79,54 +82,60 @@ const AdminPanel = () => {
           <div className="edit-popup">
             <form onSubmit={handleSubmit} className="edit-form">
               <h2>Edit Admin Details</h2>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Name</label>
                 <input
+                className="edit-dashboard-data"
                   type="text"
                   name="name"
                   value={adminDetails.name}
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Email</label>
                 <input
+                className="edit-dashboard-data"
                   type="email"
                   name="email"
                   value={adminDetails.email}
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Phone Number</label>
                 <input
+                className="edit-dashboard-data"
                   type="tel"
                   name="phoneNumber"
                   value={adminDetails.phoneNumber}
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Address</label>
                 <input
+                className="edit-dashboard-data"
                   type="text"
                   name="address"
                   value={adminDetails.address}
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Birthdate</label>
                 <input
+                className="edit-dashboard-data"
                   type="date"
                   name="birthdate"
                   value={adminDetails.birthdate}
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Gender</label>
                 <select
+                className="edit-dashboard-data"
                   name="gender"
                   value={adminDetails.gender}
                   onChange={handleChange}
@@ -136,26 +145,28 @@ const AdminPanel = () => {
                   <option value="Other">Other</option>
                 </select>
               </div>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Password</label>
                 <input
+                className="edit-dashboard-data"
                   type="password"
                   name="password"
                   value={adminDetails.password}
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
+              <div className="profile-form-group">
                 <label>Confirm Password</label>
                 <input
+                className="edit-dashboard-data"
                   type="password"
                   name="confirmPassword"
                   value={adminDetails.confirmPassword}
                   onChange={handleChange}
                 />
               </div>
-              <button type="submit">Save Changes</button>
-              <button type="button" onClick={() => setIsEditing(false)}>
+              <button className="adminbutton" type="submit">Save Changes</button>
+              <button className="adminbutton" type="button" onClick={() => setIsEditing(false)}>
                 Cancel
               </button>
             </form>

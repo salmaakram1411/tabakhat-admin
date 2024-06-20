@@ -74,10 +74,10 @@ const ChefsList = () => {
   return (
     <div className='main-container'>
       <AdminNavbar />
-      
-    <div className="panel-container">
-    <PageHeader  />
-      <div className="panel-content">
+      <div className='header-container'>
+        <PageHeader pageTitle="Users" />
+      </div>
+      <div className="cheflist-container">
         <h2>Chefs List</h2>
         <table className="chefs-list-table">
           <thead>
@@ -125,9 +125,9 @@ const ChefsList = () => {
                 </td>
                 <td>{chef.subscriptionType}</td>
                 <td>
-                  <button onClick={() => handleRemove(chef.id)}>Remove</button>
-                  <button onClick={() => handleBlock(chef.id)}>Block</button>
-                  <button onClick={() => handleViewMenu(chef)}>View Menu</button>
+                  <button onClick={() => handleRemove(chef.id)} className='cheflist-button'>Remove</button>
+                  <button onClick={() => handleBlock(chef.id)} className='cheflist-button'>Block</button>
+                  <button onClick={() => handleViewMenu(chef)} className='cheflist-button'>Menu</button>
                 </td>
               </tr>
             ))}
@@ -148,7 +148,7 @@ const ChefsList = () => {
         </div>
       )}
     </div>
-    </div>
+    
   );
 };
 

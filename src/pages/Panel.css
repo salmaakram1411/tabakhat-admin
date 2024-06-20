@@ -1,31 +1,40 @@
-/* Panel.css */
+.main-container {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align all items */
+}
 
-/* Main container styles */
+.header-container {
+  width: 100%;
+  margin-bottom: 60px; /* Add 100px margin to the bottom of the header container */
+}
+
+
 .main-container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Admin panel page styles */
-.admin-panel-page {
+
+.Dasboard-panel-page {
   flex: 1;
   padding: 20px;
 }
-.adminpanel-boxes{
+
+.Dashboardpanel-boxes {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* PageHeader component styles (assuming its own CSS) */
 
-/* Profile box styles */
 .profile-box {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 150%;
   max-width: 600px; /* Adjust as needed */
   margin-bottom: 20px;
   display: flex;
@@ -34,6 +43,7 @@
 }
 
 .profile-box h2 {
+  text-transform: capitalize;
   margin: 0;
   font-size: 24px;
   color: #343a40;
@@ -45,13 +55,13 @@
   font-size: 20px;
 }
 
-/* Details box styles */
+
 .details-box {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 100%;
+  width: 150%;
   max-width: 600px; /* Adjust as needed */
   margin-bottom: 20px;
 }
@@ -65,11 +75,13 @@
   width: 150px;
   font-weight: bold;
   color: #495057;
+  padding: 10px;
 }
 
 .details-value {
   flex: 1;
   color: #6c757d;
+  padding: 10px;
 }
 
 /* Edit popup styles */
@@ -83,8 +95,10 @@
   border-radius: 8px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  width: 100%;
-  max-width: 400px; /* Adjust as needed */
+  width: 90%;
+  max-width: 600px;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .edit-form h2 {
@@ -94,22 +108,18 @@
   color: #343a40;
 }
 
-.form-group {
+.profile-form-group {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.profile-form-group label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
   color: #495057;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="password"],
-select {
+.edit-dashboard-data {
   width: 100%;
   padding: 8px;
   border: 1px solid #ced4da;
@@ -125,31 +135,32 @@ input[type="date"] {
   font-size: 14px;
 }
 
-button {
+.adminbutton {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: var(--main-color);
   color: #ffffff;
   cursor: pointer;
   font-size: 14px;
 }
 
-button[type="submit"] {
-  background-color: #28a745;
+.adminbutton[type="submit"] {
+  background-color: var(--main-color);
 }
 
-button[type="submit"]:hover,
-button[type="button"]:hover {
-  opacity: 0.8;
-}
-
-button[type="button"] {
-  background-color: #dc3545;
+.adminbutton[type="button"] {
+  background-color: rgba(0, 0, 0, 0.389);
   margin-left: 10px;
 }
 
-@media (max-width: 768px){
+.adminbutton:hover {
+  opacity: 0.8;
+}
+
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
   .adminpanel-boxes {
     width: 100%;
     padding: 0 10px;
@@ -160,5 +171,6 @@ button[type="button"] {
     align-items: flex-start; /* Adjust alignment for smaller screens */
     text-align: center;
   }
-
 }
+
+

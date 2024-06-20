@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    if (username === 'sama' && password === '111') {
+    if (email === 'chef' && password === '000') {
       navigate('/chef');
-    } else if (username === 'salma' && password === '000') {
+    } else if (email === 'admin' && password === '000') {
       navigate('/admin/home');
     } else {
       alert('Invalid credentials!');
@@ -18,21 +18,25 @@ const LoginPage = () => {
   };
 
   return (
+    <div className='login-page'>
     <div className="login-container">
       <h2>Login</h2>
       <input 
+        className='dashboardlogin'
         type="text" 
-        placeholder="Username" 
-        value={username} 
-        onChange={(e) => setUsername(e.target.value)} 
+        placeholder="email" 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
       />
       <input 
+       className='dashboardlogin'
         type="password" 
         placeholder="Password" 
         value={password} 
         onChange={(e) => setPassword(e.target.value)} 
       />
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogin} className='dashboard-login-button'>Login</button>
+    </div>
     </div>
   );
 };

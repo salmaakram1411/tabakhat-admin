@@ -1,11 +1,14 @@
 /* ChefsList.css */
 
-.main-container {
-  display: flex;
-}
-.panel-container{
-  flex: 1;
+
+.cheflist-container{
+  background-color: #fff;
   padding: 20px;
+  width: 90%;
+  max-width: 1200px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 0 auto;
 
 }
 
@@ -32,6 +35,11 @@
 
 .chefs-list-table th {
   background-color: #f2f2f2;
+  border: 1px solid #ddd;
+}
+.chefs-list-table td {
+  vertical-align: middle;
+  border: 1px solid #ddd;
 }
 
 .menu-popup {
@@ -59,6 +67,11 @@
 
 .menu-popup-content h2 {
   margin-top: 0;
+  text-align: center;
+}
+
+.menu-popup-content h1 {
+  display: none;
 }
 
 .menu-popup-content .close {
@@ -72,4 +85,23 @@
 
 .menu-popup-content .close:hover {
   color: #666;
+}
+.cheflist-button {
+  margin-bottom: 5px;
+}
+
+.cheflist-button {
+  background-color: var(--main-color);
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s ease;
+  width: 100px;
+}
+
+.cheflist-button:hover {
+  opacity: 0.8;
 }

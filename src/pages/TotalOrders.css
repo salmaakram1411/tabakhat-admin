@@ -1,0 +1,67 @@
+
+  
+  /* Styling for the page header */
+  .page-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Container for complete orders */
+  .complete-orders {
+    background-color: #fff;
+    padding: 20px;
+    width: 90%;
+    max-width: 1200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 0 auto;
+  }
+  
+  /* Styling for the table of complete orders */
+  .complete-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .complete-orders-table th,
+  .complete-orders-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .complete-orders-table th {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+  }
+  
+  .complete-orders-table td {
+    vertical-align: top;
+    border: 1px solid #ddd;
+  }
+  
+  /* Add hover effect for table rows */
+  .complete-orders-table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Add styling for the status column */
+  .complete-orders-table td:last-child {
+    font-weight: bold;
+  }
+  
+  /* Media query for responsive design */
+  @media (max-width: 768px) {
+    .complete-orders {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .complete-orders-table th,
+    .complete-orders-table td {
+      padding: 8px;
+    }
+  }
+  

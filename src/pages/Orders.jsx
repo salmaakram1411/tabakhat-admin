@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
+import PageHeader from '../components/PageHeader';
 import './Orders.css';
 
 const Orders = () => {
@@ -25,11 +26,15 @@ const Orders = () => {
   };
 
   return (
-    <div className="panel-container">
-      <AdminNavbar />
-      <div className="panel-content">
+    <div className='main-container'>
+    <AdminNavbar />
+    <div className='header-container'>
+      <PageHeader pageTitle="Users" />
+    </div>
+    
+      <div className="all-orders">
         <h2>Orders</h2>
-        <table className="orders-table">
+        <table className="all-orders-table">
           <thead>
             <tr>
               <th>Chef Name</th>

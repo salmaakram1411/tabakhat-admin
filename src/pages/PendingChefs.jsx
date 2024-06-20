@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
+import PageHeader from "../components/PageHeader";
+
 import './PendingChefs.css';
 
 const PendingChefs = () => {
@@ -35,9 +37,12 @@ const PendingChefs = () => {
   };
 
   return (
-    <div className="panel-container">
-      <AdminNavbar />
-      <div className="panel-content">
+  <div className='main-container'>
+    <AdminNavbar />
+    <div className='header-container'>
+      <PageHeader pageTitle="Users" />
+      </div>
+      <div className="pending-chef">
         <h2>Pending Chefs</h2>
         <table className="pending-chefs-table">
           <thead>
@@ -75,6 +80,8 @@ const PendingChefs = () => {
         </table>
       </div>
     </div>
+   
+   
   );
 };
 

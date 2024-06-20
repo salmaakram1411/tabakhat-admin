@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Users.css'; // Import your CSS file for styling
 import AdminNavbar from '../components/AdminNavbar';
+import PageHeader from '../components/PageHeader';
 
 const Users = () => {
   const [users, setUsers] = useState([
@@ -40,40 +41,47 @@ const Users = () => {
   };
 
   return (
-    <div className="users-container">
-        <AdminNavbar/>
-      <h2>Users List</h2>
-      <table className="users-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Gender</th>
-            <th>Birthdate</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
-              <td>{user.address}</td>
-              <td>{user.gender}</td>
-              <td>{user.birthdate}</td>
-              <td>
-                <button onClick={() => handleRemoveUser(user.id)}>Remove</button>
-                <button onClick={() => handleBlockUser(user.id)}>Block</button>
-              </td>
+    <div className='main-container'>
+      <AdminNavbar />
+      <div className='header-container'>
+        <PageHeader pageTitle="Users" />
+      </div>
+      <div className="users-container">
+        <h2>Users List</h2>
+        <table className="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Gender</th>
+              <th>Birthdate</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map(user => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.phone}</td>
+                <td>{user.address}</td>
+                <td>{user.gender}</td>
+                <td>{user.birthdate}</td>
+                <td>
+                  <button className="users-button" onClick={() => handleRemoveUser(user.id)}>Remove</button>
+                  <button className="users-button" onClick={() => handleBlockUser(user.id)}>Block</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
 export default Users;
+
+

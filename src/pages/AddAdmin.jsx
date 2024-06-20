@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './AddAdmin.css';
 import AdminNavbar from '../components/AdminNavbar';
+import PageHeader from "../components/PageHeader";
 
 const AddAdmin = () => {
   const [adminDetails, setAdminDetails] = useState({
@@ -29,8 +30,13 @@ const AddAdmin = () => {
   };
 
   return (
+    <div className='main-container'>
+    <AdminNavbar />
+    <div className='header-container'>
+      <PageHeader pageTitle="Users" />
+    </div>
     <div className="add-admin-page">
-        <AdminNavbar />
+       
       <h2>Add New Admin</h2>
       <form onSubmit={handleSubmit} className="add-admin-form">
         <div className="form-group">
@@ -117,8 +123,9 @@ const AddAdmin = () => {
             required
           />
         </div>
-        <button type="submit">Add Admin</button>
+        <button type="submit" className='add-admin-button'>Add Admin</button>
       </form>
+    </div>
     </div>
   );
 };
