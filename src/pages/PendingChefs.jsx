@@ -52,7 +52,6 @@ const PendingChefs = () => {
               <th>Phone</th>
               <th>CV</th>
               <th>Social Platforms</th>
-              <th>Subscription Type</th>
               <th>Payment Receipt</th>
               <th>Actions</th>
             </tr>
@@ -68,7 +67,7 @@ const PendingChefs = () => {
                   <a href={chef.social.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>,{' '}
                   <a href={chef.social.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>
                 </td>
-                <td>{chef.subscriptionType}</td>
+               
                 <td><a href={chef.paymentReceipt} target="_blank" rel="noopener noreferrer">View Receipt</a></td>
                 <td>
                   <button onClick={() => handleAccept(chef.id)}>Accept</button>

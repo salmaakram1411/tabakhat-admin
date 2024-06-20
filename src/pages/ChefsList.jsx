@@ -21,7 +21,7 @@ const ChefsList = () => {
         facebook: 'https://facebook.com/jane',
         twitter: 'https://twitter.com/jane',
       },
-      subscriptionType: 'Premium',
+     
       menu: { // Example menu for Jane Doe
         breakfast: [
           { id: 1, name: 'Pancakes', description: 'Fluffy pancakes served with syrup', price: 8.99, image: '/path/to/pancakes.jpg' },
@@ -92,7 +92,7 @@ const ChefsList = () => {
               <th>Description</th>
               <th>CV</th>
               <th>Social Platforms</th>
-              <th>Subscription Type</th>
+             
               <th>Actions</th>
             </tr>
           </thead>
@@ -123,7 +123,7 @@ const ChefsList = () => {
                     Twitter
                   </a>
                 </td>
-                <td>{chef.subscriptionType}</td>
+                
                 <td>
                   <button onClick={() => handleRemove(chef.id)} className='cheflist-button'>Remove</button>
                   <button onClick={() => handleBlock(chef.id)} className='cheflist-button'>Block</button>
