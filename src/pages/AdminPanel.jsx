@@ -1,21 +1,15 @@
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import "./Panel.css";
 import AdminNavbar from "../components/AdminNavbar";
 import PageHeader from "../components/PageHeader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import axiosConfig from "../services/http";
+import "./Panel.css";
 
 const AdminPanel = () => {
-  const [adminDetails, setAdminDetails] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phoneNumber: "123-456-7890",
-    address: "123 Main St, Anytown, USA",
-    birthdate: "1985-05-15",
-    gender: "Male",
-    password: "",
-    confirmPassword: "",
-  });
+  const user = JSON.parse(localStorage.getItem("user")).user;
+  const birth = new Date(user.birthDate);
+  const [adminDetails, setAdminDetails] = useState({...user, birthDate: `${birth.getFullYear()}-${birth.getMonth() < 10 ? "0" : ""}${birth.getMonth() + 1}-${birth.getDate()}`});
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -30,7 +24,12 @@ const AdminPanel = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add logic to update the admin details, e.g., sending data to backend
-    setIsEditing(false);
+    axiosConfig.post(`admin/${user.personId}`, {email: adminDetails.email, phone: adminDetails.phone, address: adminDetails.address})
+      .then(res => {
+        if (res?.status === 200) {
+          setIsEditing(false);
+        }
+      })
   };
 
   return (
@@ -61,7 +60,7 @@ const AdminPanel = () => {
           </div>
           <div className="details-row">
             <div className="details-label">Phone Number</div>
-            <div className="details-value">{adminDetails.phoneNumber}</div>
+            <div className="details-value">{adminDetails.phone}</div>
           </div>
           <div className="details-row">
             <div className="details-label">Address</div>
@@ -69,7 +68,7 @@ const AdminPanel = () => {
           </div>
           <div className="details-row">
             <div className="details-label">Birthdate</div>
-            <div className="details-value">{adminDetails.birthdate}</div>
+            <div className="details-value">{adminDetails.birthDate}</div>
           </div>
           <div className="details-row">
             <div className="details-label">Gender</div>
@@ -82,16 +81,6 @@ const AdminPanel = () => {
           <div className="edit-popup">
             <form onSubmit={handleSubmit} className="edit-form">
               <h2>Edit Admin Details</h2>
-              <div className="profile-form-group">
-                <label>Name</label>
-                <input
-                className="edit-dashboard-data"
-                  type="text"
-                  name="name"
-                  value={adminDetails.name}
-                  onChange={handleChange}
-                />
-              </div>
               <div className="profile-form-group">
                 <label>Email</label>
                 <input
@@ -107,8 +96,8 @@ const AdminPanel = () => {
                 <input
                 className="edit-dashboard-data"
                   type="tel"
-                  name="phoneNumber"
-                  value={adminDetails.phoneNumber}
+                  name="phone"
+                  value={adminDetails.phone}
                   onChange={handleChange}
                 />
               </div>
@@ -119,49 +108,6 @@ const AdminPanel = () => {
                   type="text"
                   name="address"
                   value={adminDetails.address}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="profile-form-group">
-                <label>Birthdate</label>
-                <input
-                className="edit-dashboard-data"
-                  type="date"
-                  name="birthdate"
-                  value={adminDetails.birthdate}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="profile-form-group">
-                <label>Gender</label>
-                <select
-                className="edit-dashboard-data"
-                  name="gender"
-                  value={adminDetails.gender}
-                  onChange={handleChange}
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div className="profile-form-group">
-                <label>Password</label>
-                <input
-                className="edit-dashboard-data"
-                  type="password"
-                  name="password"
-                  value={adminDetails.password}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="profile-form-group">
-                <label>Confirm Password</label>
-                <input
-                className="edit-dashboard-data"
-                  type="password"
-                  name="confirmPassword"
-                  value={adminDetails.confirmPassword}
                   onChange={handleChange}
                 />
               </div>

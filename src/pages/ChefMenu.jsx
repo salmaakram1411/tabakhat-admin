@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import pancakeImage from '../assets/fish.jpg'; // Example image import
 import ChefNavbar from '../components/ChefNavbar';
 import PageHeader from "../components/PageHeader";
+import axiosConfig from '../services/http';
 import './ChefMenu.css';
-import pancakeImage from '../assets/fish.jpg'; // Example image import
 
-const ChefMenu = () => {
+const ChefMenu = ({chef}) => {
   // Sample initial data for menu sections and items
   const initialMenu = {
     breakfast: [
@@ -27,6 +28,9 @@ const ChefMenu = () => {
     ],
   };
 
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [image, setImage] = useState("");
+  const [data, setData] = useState({});
   const [menu, setMenu] = useState(initialMenu);
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
@@ -55,6 +59,8 @@ const ChefMenu = () => {
         price: '',
         image: pancakeImage, // Reset image to default for new item
       });
+      const selected = data.find(sec => sec.role === item);
+      setSelectedSection(selected);
     }
     setModalMode(mode);
     setShowModal(true);
@@ -86,31 +92,101 @@ const ChefMenu = () => {
 
     if (modalMode === 'add') {
       const newItem = {
-        id: menu[Object.keys(menu)[0]].length + 1, // Generate new ID
         name: formData.name,
         description: formData.description,
         price: parseFloat(formData.price),
-        image: formData.image,
+        // image: formData.image,
       };
       const section = Object.keys(menu)[0]; // Modify as per your logic
       updatedMenu[section] = [...menu[section], newItem];
+      axiosConfig.post(`dishes`, {...newItem, sectionId: selectedSection.section_id})
+      .then(
+        res => {
+          if (res?.data?.insertId) {
+            const imageFormData = new FormData();
+            imageFormData.append("image", image);
+            axiosConfig.post(`dish-image/${res.data.insertId}`, imageFormData).then(
+              res => {
+                updateData();
+              }
+            )
+          }
+        }
+      )
     } else if (modalMode === 'edit') {
       const section = Object.keys(menu)[0]; // Modify as per your logic
       updatedMenu[section] = menu[section].map(item =>
         item.id === formData.id ? { ...item, ...formData } : item
       );
+      axiosConfig.put(`dishes/${formData.id}`, {...formData})
+      .then(
+        res => {
+          if (res?.data) {
+            const imageFormData = new FormData();
+            imageFormData.append("image", image);
+            axiosConfig.post(`dish-image/${formData.id}`, imageFormData).then(
+              res => {
+                updateData();
+              }
+            )
+          }
+        }
+      )
     }
 
     setMenu(updatedMenu);
     closeModal();
   };
 
+  const handleImage = (event) => {
+    setImage(event.target.files[0]);
+  }
+
+  const updateData = () => {
+    const response = axiosConfig.get("sections-dishes" + "/" + chef.id)
+    .then(
+      res => {
+        if (res?.data?.length) {
+          const data = res.data;
+          setData(data);
+          setMenu({});
+          const menu = {};
+          const sections = data.map(item => {
+            return {
+              role: item.role,
+              id: item.section_id
+            }
+          });
+          for (let sec of sections) {
+            menu[sec.role] = data.filter(dish => {
+              return dish.section_id === sec.id
+            }).map(item => {
+              return {
+                ...item,
+                id: item.ID
+              }
+            })
+          }
+          setMenu(menu)
+        }
+      }
+    )
+  }
+
+  useEffect(() => {
+    updateData();
+  }, [])
+
   const handleRemove = (section, id) => {
-    const updatedMenu = {
-      ...menu,
-      [section]: menu[section].filter(item => item.id !== id)
-    };
-    setMenu(updatedMenu);
+    // const updatedMenu = {
+    //   ...menu,
+    //   [section]: menu[section].filter(item => item.id !== id)
+    // };
+    // setMenu(updatedMenu);
+    axiosConfig.delete(`dishes/${id}`)
+      .then(
+        res => {updateData()}
+      )
   };
 
   return (
@@ -142,9 +218,9 @@ const ChefMenu = () => {
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.description}</td>
-                  <td>${item.price.toFixed(2)}</td>
+                  <td>${`${(+item.price).toFixed(2)}`}</td>
                   <td>
-                    <img src={item.image} alt={item.name} className="menu-item-image" />
+                    <img src={`data:image/png;base64, ${item.image}`} alt={item.name} className="menu-item-image" />
                   </td>
                   <td>
                     <button className='chef-editRemove' onClick={() => openModal('edit', item)}>Edit</button>
@@ -154,7 +230,7 @@ const ChefMenu = () => {
               ))}
             </tbody>
           </table>
-          <button className="add-item-btn" onClick={() => openModal('add')}>Add Item</button>
+          <button className="add-item-btn" onClick={() => openModal('add', section)}>Add Item</button>
         </div>
       ))}
 
@@ -178,10 +254,22 @@ const ChefMenu = () => {
                 <input type="number" name="price" value={formData.price} onChange={handleChange} min="0" step="0.01" required />
               </div>
               {/* Add image upload functionality */}
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>Image URL</label>
                 <input type="text" name="image" value={formData.image} onChange={handleChange} />
-              </div>
+              </div> */}
+              <div className="form-group">
+              <label htmlFor="receipt">Image</label>
+              <input 
+                type="file" 
+                id="receipt" 
+                name="receipt" 
+                className="checkout-input" 
+                accept="image/*" 
+                onChange={handleImage} 
+                required 
+              />
+            </div>
               <button type="submit">{modalMode === 'add' ? 'Add' : 'Save Changes'}</button>
             </form>
           </div>

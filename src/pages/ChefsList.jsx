@@ -1,50 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
-import './ChefsList.css';
 import PageHeader from "../components/PageHeader";
+import axiosConfig from '../services/http';
 import ChefMenu from './ChefMenu'; // Import ChefMenu component for menu details
+import './ChefsList.css';
 
 const ChefsList = () => {
   const [chefs, setChefs] = useState([
-    {
-      id: 1,
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      phone: '987-654-3210',
-      address: '123 Main St, Anytown, USA',
-      gender: 'Female',
-      birthdate: '1990-01-01',
-      picture: '/path/to/picture.jpg',
-      description: 'Experienced chef specializing in Italian cuisine.',
-      cv: '/path/to/cv.pdf',
-      social: {
-        facebook: 'https://facebook.com/jane',
-        twitter: 'https://twitter.com/jane',
-      },
+    // {
+    //   id: 1,
+    //   name: 'Jane Doe',
+    //   email: 'jane@example.com',
+    //   phone: '987-654-3210',
+    //   address: '123 Main St, Anytown, USA',
+    //   gender: 'Female',
+    //   birthdate: '1990-01-01',
+    //   picture: '/path/to/picture.jpg',
+    //   description: 'Experienced chef specializing in Italian cuisine.',
+    //   cv: '/path/to/cv.pdf',
      
-      menu: { // Example menu for Jane Doe
-        breakfast: [
-          { id: 1, name: 'Pancakes', description: 'Fluffy pancakes served with syrup', price: 8.99, image: '/path/to/pancakes.jpg' },
-          { id: 2, name: 'Omelette', description: 'Cheese and vegetable omelette', price: 9.99, image: '/path/to/omelette.jpg' },
-        ],
-        lunch: [
-          { id: 1, name: 'Caesar Salad', description: 'Fresh greens with Caesar dressing', price: 10.99, image: '/path/to/caesar-salad.jpg' },
-          { id: 2, name: 'Grilled Chicken', description: 'Juicy grilled chicken with sides', price: 12.99, image: '/path/to/grilled-chicken.jpg' },
-        ],
-        dinner: [
-          { id: 1, name: 'Steak', description: 'Tender steak cooked to perfection', price: 19.99, image: '/path/to/steak.jpg' },
-          { id: 2, name: 'Seafood Pasta', description: 'Rich seafood pasta with garlic bread', price: 17.99, image: '/path/to/seafood-pasta.jpg' },
-        ],
-        occasions: [
-          { id: 1, name: 'Wedding Cake', description: 'Custom-designed wedding cake', price: 199.99, image: '/path/to/wedding-cake.jpg' },
-        ],
-        desserts: [
-          { id: 1, name: 'Chocolate Mousse', description: 'Decadent chocolate mousse dessert', price: 7.99, image: '/path/to/chocolate-mousse.jpg' },
-        ],
-      },
-    },
+    //   menu: { // Example menu for Jane Doe
+    //     breakfast: [
+    //       { id: 1, name: 'Pancakes', description: 'Fluffy pancakes served with syrup', price: 8.99, image: '/path/to/pancakes.jpg' },
+    //       { id: 2, name: 'Omelette', description: 'Cheese and vegetable omelette', price: 9.99, image: '/path/to/omelette.jpg' },
+    //     ],
+    //     lunch: [
+    //       { id: 1, name: 'Caesar Salad', description: 'Fresh greens with Caesar dressing', price: 10.99, image: '/path/to/caesar-salad.jpg' },
+    //       { id: 2, name: 'Grilled Chicken', description: 'Juicy grilled chicken with sides', price: 12.99, image: '/path/to/grilled-chicken.jpg' },
+    //     ],
+    //     dinner: [
+    //       { id: 1, name: 'Steak', description: 'Tender steak cooked to perfection', price: 19.99, image: '/path/to/steak.jpg' },
+    //       { id: 2, name: 'Seafood Pasta', description: 'Rich seafood pasta with garlic bread', price: 17.99, image: '/path/to/seafood-pasta.jpg' },
+    //     ],
+    //     occasions: [
+    //       { id: 1, name: 'Wedding Cake', description: 'Custom-designed wedding cake', price: 199.99, image: '/path/to/wedding-cake.jpg' },
+    //     ],
+    //     desserts: [
+    //       { id: 1, name: 'Chocolate Mousse', description: 'Decadent chocolate mousse dessert', price: 7.99, image: '/path/to/chocolate-mousse.jpg' },
+    //     ],
+    //   },
+    // },
     // Add more chefs as needed
   ]);
+
+  useEffect(() => {
+    const response = axiosConfig.get("chefs")
+      .then(res => {
+        if (res?.data) {
+          const data = res.data.map(item => {
+            item = {
+              ...item,
+              id: item.ID,
+              birthdate: `${new Date(item.birth_date).getFullYear()}-${new Date(item.birth_date).getMonth() + 1}-${new Date(item.birth_date).getDate()}`,
+              picture: `data:image/png;base64, ${item.image}`,
+              cv: item.CV
+            };
+            return item
+          });
+          setChefs(data)
+        }
+      })
+  }, [])
 
   const [selectedChef, setSelectedChef] = useState(null); // State to track selected chef for viewing/editing menu
 
@@ -91,13 +107,12 @@ const ChefsList = () => {
               <th>Picture</th>
               <th>Description</th>
               <th>CV</th>
-              <th>Social Platforms</th>
              
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {chefs.map((chef) => (
+            {chefs?.map((chef) => (
               <tr key={chef.id}>
                 <td>{chef.name}</td>
                 <td>{chef.email}</td>
@@ -112,15 +127,6 @@ const ChefsList = () => {
                 <td>
                   <a href={chef.cv} target="_blank" rel="noopener noreferrer">
                     View CV
-                  </a>
-                </td>
-                <td>
-                  <a href={chef.social.facebook} target="_blank" rel="noopener noreferrer">
-                    Facebook
-                  </a>
-                  ,{' '}
-                  <a href={chef.social.twitter} target="_blank" rel="noopener noreferrer">
-                    Twitter
                   </a>
                 </td>
                 

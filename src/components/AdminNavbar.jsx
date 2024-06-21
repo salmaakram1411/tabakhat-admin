@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './SideNavbar.css';
 
+import { faAddressCard, faCartPlus, faCartShopping, faHouse, faPlus, faSignOutAlt, faUser, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUtensils, faAddressCard, faCartShopping, faSpinner, faCartPlus, faPlus, faSignOutAlt, faHouse } from '@fortawesome/free-solid-svg-icons';
 
 const AdminNavbar = () => {
   return (
@@ -42,12 +42,6 @@ const AdminNavbar = () => {
           <Link to="/admin/orders">
             <FontAwesomeIcon icon={faCartShopping} className="navbar-icon" />
             <span className="nav-icons">Orders</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/admin/pending-chefs">
-            <FontAwesomeIcon icon={faSpinner} className="navbar-icon" />
-            <span className="nav-icons">Pending Chefs</span>
           </Link>
         </li>
         <li>
