@@ -1,11 +1,17 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
 import PageHeader from "../components/PageHeader";
-import axiosConfig from '../services/http';
 import ChefMenu from './ChefMenu'; // Import ChefMenu component for menu details
 import './ChefsList.css';
 
 const ChefsList = () => {
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
   const [chefs, setChefs] = useState([
     // {
     //   id: 1,
@@ -43,32 +49,39 @@ const ChefsList = () => {
     // Add more chefs as needed
   ]);
 
-  useEffect(() => {
+  function updateData() {
     const response = axiosConfig.get("chefs")
-      .then(res => {
-        if (res?.data) {
-          const data = res.data.map(item => {
-            item = {
-              ...item,
-              id: item.ID,
-              birthdate: `${new Date(item.birth_date).getFullYear()}-${new Date(item.birth_date).getMonth() + 1}-${new Date(item.birth_date).getDate()}`,
-              picture: `data:image/png;base64, ${item.image}`,
-              cv: item.CV
-            };
-            return item
-          });
-          setChefs(data)
-        }
-      })
+    .then(res => {
+      if (res?.data) {
+        const data = res.data.map(item => {
+          item = {
+            ...item,
+            id: item.ID,
+            birthdate: `${new Date(item.birth_date).getFullYear()}-${new Date(item.birth_date).getMonth() + 1}-${new Date(item.birth_date).getDate()}`,
+            picture: `data:image/png;base64, ${item.image}`,
+            cv: item.CV
+          };
+          return item
+        });
+        setChefs(data)
+      }
+    })
+  }
+
+  useEffect(() => {
+    updateData();
   }, [])
 
   const [selectedChef, setSelectedChef] = useState(null); // State to track selected chef for viewing/editing menu
 
   const handleRemove = (id) => {
     if (window.confirm('Are you sure you want to remove this chef?')) {
-      alert(`Removed chef with ID: ${id}`);
-      // Remove chef from list
-      setChefs(chefs.filter((chef) => chef.id !== id));
+      axiosConfig.delete(`chefs/${id}`).then(
+        res => {
+          alert("Chef has been removed");
+          updateData();
+        }
+      )
     }
   };
 

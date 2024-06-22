@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
 import PageHeader from '../components/PageHeader';
 import './Orders.css';
 
 const Orders = () => {
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
   const [orders, setOrders] = useState([
     {
       id: 1,
@@ -17,12 +24,41 @@ const Orders = () => {
     // Add more orders as needed
   ]);
 
-  const handleStatusChange = (id, newStatus) => {
-    setOrders(
-      orders.map(order =>
-        order.id === id ? { ...order, status: newStatus } : order
+  function updateData() {
+    const response = axiosConfig.get("admin-orders")
+      .then(
+        res => {
+          if (res?.data) {
+            const data = res.data;
+            setOrders(data.map(item => {
+              item = {
+                chefName: `${item.chef_first_name} ${item.chef_last_name}`,
+                orderItems: `${item.dishes}, ...`,
+                totalPrice: item.total_cost,
+                requestedDeliveryTime: item.delivery_time.split("T")[0],
+                comment: item.comment_content,
+                status: item.status,
+                id: item.OrderID
+              };
+              return item
+            }))
+          }
+        }
       )
-    );
+  }
+
+  useEffect(() => {
+    updateData();
+  }, [])
+
+  const handleStatusChange = (id, newStatus) => {
+    axiosConfig.put(`admin-orders/${id}`, {status: newStatus})
+      .then(
+        res => {
+          alert("Order status changed");
+          updateData();
+        }
+      );
   };
 
   return (

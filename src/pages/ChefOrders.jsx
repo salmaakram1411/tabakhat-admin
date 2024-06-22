@@ -1,25 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import ChefNavbar from '../components/ChefNavbar';
 import PageHeader from "../components/PageHeader";
 import './Orders.css';
 
 const ChefOrders = () => {
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
   const [orders, setOrders] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"))?.user;
 
   useEffect(() => {
-    const acceptedOrders = [
-      {
-        id: 1,
-        chefName: 'John Doe',
-        orderItems: 'Pasta, Salad',
-        totalPrice: '$30',
-        requestedDeliveryTime: '2024-06-18 12:00 PM',
-        comment: 'Please deliver ASAP',
-        status: 'accepted',
-      },
-      // Add more accepted orders as needed
-    ];
-    setOrders(acceptedOrders.filter(order => order.status === 'accepted'));
+    axiosConfig.get(`chef-orders/${user.chefId}`)
+      .then(
+        res => {
+          if (res?.data) {
+            const data = res.data;
+            setOrders(data.map(item => {
+              item = {
+                chefName: `${item.chef_first_name} ${item.chef_last_name}`,
+                orderItems: `${item.dishes}, ...`,
+                totalPrice: item.total_cost,
+                requestedDeliveryTime: item.delivery_time.split("T")[0],
+                comment: item.comment_content,
+                status: item.status,
+                id: item.OrderID
+              };
+              return item
+            }))
+          }
+        }
+      )
   }, []);
 
   return (

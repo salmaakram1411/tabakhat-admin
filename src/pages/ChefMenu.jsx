@@ -1,32 +1,20 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import pancakeImage from '../assets/fish.jpg'; // Example image import
 import ChefNavbar from '../components/ChefNavbar';
 import PageHeader from "../components/PageHeader";
-import axiosConfig from '../services/http';
 import './ChefMenu.css';
 
 const ChefMenu = ({chef}) => {
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
+  const chefId = JSON.parse(localStorage.getItem("user"))?.user?.chefId;
   // Sample initial data for menu sections and items
-  const initialMenu = {
-    breakfast: [
-      { id: 1, name: 'Pancakes', description: 'Fluffy pancakes served with syrup', price: 8.99, image: pancakeImage },
-      { id: 2, name: 'Omelette', description: 'Cheese and vegetable omelette', price: 9.99, image: pancakeImage },
-    ],
-    lunch: [
-      { id: 3, name: 'Caesar Salad', description: 'Fresh greens with Caesar dressing', price: 10.99, image: pancakeImage },
-      { id: 4, name: 'Grilled Chicken', description: 'Juicy grilled chicken with sides', price: 12.99, image: pancakeImage },
-    ],
-    dinner: [
-      { id: 5, name: 'Steak', description: 'Tender steak cooked to perfection', price: 19.99, image: pancakeImage },
-      { id: 6, name: 'Seafood Pasta', description: 'Rich seafood pasta with garlic bread', price: 17.99, image: pancakeImage },
-    ],
-    occasions: [
-      { id: 7, name: 'Wedding Cake', description: 'Custom-designed wedding cake', price: 199.99, image: pancakeImage },
-    ],
-    desserts: [
-      { id: 8, name: 'Chocolate Mousse', description: 'Decadent chocolate mousse dessert', price: 7.99, image: pancakeImage },
-    ],
-  };
+  const initialMenu = {};
 
   const [selectedSection, setSelectedSection] = useState(null);
   const [image, setImage] = useState("");
@@ -143,34 +131,37 @@ const ChefMenu = ({chef}) => {
   }
 
   const updateData = () => {
-    const response = axiosConfig.get("sections-dishes" + "/" + chef.id)
-    .then(
-      res => {
-        if (res?.data?.length) {
-          const data = res.data;
-          setData(data);
-          setMenu({});
-          const menu = {};
-          const sections = data.map(item => {
-            return {
-              role: item.role,
-              id: item.section_id
-            }
-          });
-          for (let sec of sections) {
-            menu[sec.role] = data.filter(dish => {
-              return dish.section_id === sec.id
-            }).map(item => {
+    if (chef || chefId) {
+
+      const response = axiosConfig.get("sections-dishes" + "/" + (chef?.id ?? chefId))
+      .then(
+        res => {
+          if (res?.data?.length) {
+            const data = res.data;
+            setData(data);
+            setMenu({});
+            const menu = {};
+            const sections = data.map(item => {
               return {
-                ...item,
-                id: item.ID
+                role: item.role,
+                id: item.section_id
               }
-            })
+            });
+            for (let sec of sections) {
+              menu[sec.role] = data.filter(dish => {
+                return dish.section_id === sec.id
+              }).map(item => {
+                return {
+                  ...item,
+                  id: item.ID
+                }
+              })
+            }
+            setMenu(menu)
           }
-          setMenu(menu)
         }
-      }
-    )
+      )
+    }
   }
 
   useEffect(() => {

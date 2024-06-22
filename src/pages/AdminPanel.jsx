@@ -3,10 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 import PageHeader from "../components/PageHeader";
-import axiosConfig from "../services/http";
 import "./Panel.css";
 
+import axios from 'axios';
+
 const AdminPanel = () => {
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
   const user = JSON.parse(localStorage.getItem("user")).user;
   const birth = new Date(user.birthDate);
   const [adminDetails, setAdminDetails] = useState({...user, birthDate: `${birth.getFullYear()}-${birth.getMonth() < 10 ? "0" : ""}${birth.getMonth() + 1}-${birth.getDate()}`});

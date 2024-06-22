@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import './Users.css'; // Import your CSS file for styling
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
 import PageHeader from '../components/PageHeader';
+import './Users.css'; // Import your CSS file for styling
 
 const Users = () => {
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -26,10 +33,36 @@ const Users = () => {
     // Add more users as needed
   ]);
 
+  function updateUsers() {
+    const response = axiosConfig.get("customer")
+      .then(
+        res => {
+          if (res?.data) {
+            const data = res.data.map(item => {
+              item.name = `${item.first_name} ${item.last_name}`;
+              item.phone = item.phone_number;
+              item.birthdate = item.birth_date.split("T")[0];
+              item.id = item.ID;
+              return item
+            })
+            setUsers(data);
+          }
+        }
+      )
+  }
+
+  useEffect(() => {
+    updateUsers();
+  }, [])
+
   const handleRemoveUser = (id) => {
     if (window.confirm('Are you sure you want to remove this user?')) {
-      alert(`Removed user with ID: ${id}`);
-      setUsers(users.filter(user => user.id !== id));
+      axiosConfig.delete(`customer/${id}`).then(
+        res => {
+          alert("User has been removed");
+          updateUsers();
+        }
+      )
     }
   };
 

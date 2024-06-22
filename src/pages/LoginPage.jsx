@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosConfig from '../services/http';
+import axiosConfig, { updateAxios } from '../services/http';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -19,6 +19,7 @@ const LoginPage = () => {
         const user = jwtDecode(token);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", token);
+        updateAxios();
         if (user.user.role === "Chef") {
           navigate('/chef');
         } else if (user.user.role === "Admin") {

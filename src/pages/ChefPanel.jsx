@@ -1,31 +1,33 @@
-import React, { useState } from "react";
-import "./Panel.css";
+import axios from 'axios';
+import React, { useEffect, useState } from "react";
 import ChefNavbar from "../components/ChefNavbar";
 import PageHeader from "../components/PageHeader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import "./Panel.css";
 
 const ChefPanel = () => {
-  const initialChefDetails = {
-    name: "sama",
-    email: "sama.doe@example.com",
-    phoneNumber: "123-456-7890",
-    address: "123 Main St, Anytown, USA",
-    birthdate: "1985-05-15",
-    gender: "Female",
-    password: "",
-    confirmPassword: "",
-    cv: "/path/to/cv.pdf",
-    social: [
-      { platform: "Facebook", link: "https://facebook.com/jane" },
-      { platform: "Twitter", link: "https://twitter.com/jane" },
-    ],
-    description: "hello",
-    photo: "", // Initialize photo state as an empty string
-  };
-
-  const [chefDetails, setChefDetails] = useState(initialChefDetails);
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
+  const user = JSON.parse(localStorage.getItem("user")).user;
+  const birth = new Date(user.birthDate);
+  const [chefDetails, setChefDetails] = useState({...user, birthDate: `${birth.getFullYear()}-${birth.getMonth() < 10 ? "0" : ""}${birth.getMonth() + 1}-${birth.getDate()}`});
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const response = axiosConfig.get(`chefs/${user?.personId}`)
+      .then(
+        res => {
+          if (res?.data) {
+            const data = res.data[0];
+            if (data.ID) localStorage.setItem("user", JSON.stringify({user: {...user, chefId: data.ID}}));
+            setChefDetails({...chefDetails, description: data.description, social: data.social_media_platforms, cv: data.CV})
+          }
+        }
+      )
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,11 +92,11 @@ const ChefPanel = () => {
         <div className="dashboard-panel-boxes">
           <div className="profile-box">
             <h2>{chefDetails.name}</h2>
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faPencilAlt}
               className="edit-icon"
               onClick={() => setIsEditing(true)}
-            />
+            /> */}
           </div>
           <div className="details-box">
             <div className="details-row">
@@ -107,7 +109,7 @@ const ChefPanel = () => {
             </div>
             <div className="details-row">
               <div className="details-label">Phone Number</div>
-              <div className="details-value">{chefDetails.phoneNumber}</div>
+              <div className="details-value">{chefDetails.phone}</div>
             </div>
             <div className="details-row">
               <div className="details-label">Address</div>
@@ -115,7 +117,7 @@ const ChefPanel = () => {
             </div>
             <div className="details-row">
               <div className="details-label">Birthdate</div>
-              <div className="details-value">{chefDetails.birthdate}</div>
+              <div className="details-value">{chefDetails.birthDate}</div>
             </div>
             <div className="details-row">
               <div className="details-label">Gender</div>
@@ -124,7 +126,7 @@ const ChefPanel = () => {
             <div className="details-row">
               <div className="details-label">CV</div>
               <div className="details-value">
-                <a href={chefDetails.cv} target="_blank" rel="noopener noreferrer">
+                <a href={`data:image/png;base64, ${chefDetails.cv}`} download target="_blank" rel="noopener noreferrer">
                   View CV
                 </a>
               </div>
@@ -132,13 +134,7 @@ const ChefPanel = () => {
             <div className="details-row">
               <div className="details-label">Social Platforms</div>
               <div className="details-value">
-                {chefDetails.social.map((social, index) => (
-                  <div key={index}>
-                    <a href={social.link} target="_blank" rel="noopener noreferrer">
-                      {social.platform}
-                    </a>
-                  </div>
-                ))}
+                <p>{chefDetails.social}</p>
               </div>
             </div>
             <div className="details-row">

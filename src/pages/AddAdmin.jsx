@@ -1,9 +1,16 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import './AddAdmin.css';
 import AdminNavbar from '../components/AdminNavbar';
 import PageHeader from "../components/PageHeader";
+import './AddAdmin.css';
 
 const AddAdmin = () => {
+  let axiosConfig = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
+  });
   const [adminDetails, setAdminDetails] = useState({
     firstName: '',
     lastName: '',
@@ -13,6 +20,7 @@ const AddAdmin = () => {
     phoneNumber: '',
     gender: '',
     birthdate: '',
+    role: "ADMIN"
   });
 
   const handleChange = (e) => {
@@ -26,7 +34,14 @@ const AddAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your logic to handle form submission, e.g., sending data to backend
-    console.log(adminDetails);
+    axiosConfig.post("auth/register", {...adminDetails, phone: adminDetails.phoneNumber, birthDate: adminDetails.birthdate})
+      .then(
+        res => {
+          alert(res.data.msg || "Admin created successfully")
+        }
+      ).catch(err => {
+        alert("User already exists")
+      })
   };
 
   return (
@@ -108,9 +123,8 @@ const AddAdmin = () => {
             required
           >
             <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
           </select>
         </div>
         <div className="form-group">
