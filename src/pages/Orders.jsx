@@ -11,18 +11,7 @@ const Orders = () => {
         authorization: localStorage.getItem("token")
     }
   });
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      chefName: 'John Doe',
-      orderItems: 'Pasta, Salad',
-      totalPrice: '$30',
-      requestedDeliveryTime: '2024-06-18 12:00 PM',
-      comment: 'Please deliver ASAP',
-      status: 'pending',
-    },
-    // Add more orders as needed
-  ]);
+  const [orders, setOrders] = useState([]);
 
   function updateData() {
     const response = axiosConfig.get("admin-orders")

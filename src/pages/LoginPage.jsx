@@ -1,10 +1,12 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import Link from react-router-dom for navigation
 import axiosConfig, { updateAxios } from '../services/http';
+import AdminSignup from './AdminSignup';
 import './LoginPage.css';
 
 const LoginPage = () => {
+  const [showSignup, setShowSignup] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -34,27 +36,35 @@ const LoginPage = () => {
     }
   };
 
+  const handleSignup = () => {
+    setShowSignup(true);
+  }
+
   return (
     <div className='login-page'>
-    <div className="login-container">
-      <h2>Login</h2>
-      {errors ? <p>Invalid Credentials</p> : ""}
-      <input 
-        className='dashboardlogin'
-        type="text" 
-        placeholder="email" 
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
-      />
-      <input 
-       className='dashboardlogin'
-        type="password" 
-        placeholder="Password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-      />
-      <button onClick={handleLogin} className='dashboard-login-button'>Login</button>
-    </div>
+      {showSignup && <AdminSignup setShowSignup={setShowSignup} />}
+      {!showSignup && (
+        <div className="login-container">
+        <h2>Login</h2>
+        {errors ? <p>Invalid Credentials</p> : ""}
+        <input 
+          className='dashboardlogin'
+          type="text" 
+          placeholder="email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+        />
+        <input 
+         className='dashboardlogin'
+          type="password" 
+          placeholder="Password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+        />
+        <button onClick={handleLogin} className='dashboard-login-button'>Login</button>
+        <p>Don't have an account? <a className='block' onClick={handleSignup}>Signup</a></p>
+      </div>
+      )}
     </div>
   );
 };

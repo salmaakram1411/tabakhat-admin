@@ -5,6 +5,10 @@ import './SideNavbar.css';
 import { faAddressCard, faCartPlus, faCartShopping, faHouse, faPlus, faSignOutAlt, faUser, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+const onLogout = () => {
+  localStorage.removeItem("token"); 
+  localStorage.removeItem("user");
+}
 const AdminNavbar = () => {
   return (
     <div className="side-navbar">
@@ -57,7 +61,7 @@ const AdminNavbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/" className="logout">
+          <Link to="/" className="logout" onClick={onLogout}>
             <FontAwesomeIcon icon={faSignOutAlt} className="navbar-icon" />
             <span className="nav-icons">Logout</span>
           </Link>

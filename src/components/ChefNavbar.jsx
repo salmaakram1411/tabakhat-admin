@@ -1,9 +1,13 @@
+import { faCartShopping, faSignOutAlt, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './SideNavbar.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faCartShopping, faSignOutAlt, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
 
+const onLogout = () => {
+  localStorage.removeItem("token"); 
+  localStorage.removeItem("user");
+}
 const ChefNavbar = () => {
   return (
     <div className="side-navbar">
@@ -32,7 +36,7 @@ const ChefNavbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/" className="logout">
+          <Link to="/" className="logout" onClick={onLogout}>
             <FontAwesomeIcon icon={faSignOutAlt} className="navbar-icon" />
             <span className="nav-icons">Logout</span>
           </Link>

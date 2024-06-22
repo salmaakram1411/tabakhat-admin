@@ -21,7 +21,9 @@ const ChefMenu = ({chef}) => {
   const [data, setData] = useState({});
   const [menu, setMenu] = useState(initialMenu);
   const [showModal, setShowModal] = useState(false);
+  const [showSection, setShowSection] = useState(false);
   const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
+  const [sectionData, setSectionData] = useState({name: ""});
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -47,7 +49,8 @@ const ChefMenu = ({chef}) => {
         price: '',
         image: pancakeImage, // Reset image to default for new item
       });
-      const selected = data.find(sec => sec.role === item);
+      console.log({data, item})
+      const selected = data?.find(sec => sec.role === item);
       setSelectedSection(selected);
     }
     setModalMode(mode);
@@ -73,6 +76,13 @@ const ChefMenu = ({chef}) => {
       [name]: value,
     });
   };
+  const handleSectionChange = (e) => {
+    const { name, value } = e.target;
+    setSectionData({
+      ...sectionData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,7 +97,7 @@ const ChefMenu = ({chef}) => {
       };
       const section = Object.keys(menu)[0]; // Modify as per your logic
       updatedMenu[section] = [...menu[section], newItem];
-      axiosConfig.post(`dishes`, {...newItem, sectionId: selectedSection.section_id})
+      axiosConfig.post(`dishes`, {...newItem, sectionId: (selectedSection.section_id || selectedSection.ID)})
       .then(
         res => {
           if (res?.data?.insertId) {
@@ -158,6 +168,29 @@ const ChefMenu = ({chef}) => {
               })
             }
             setMenu(menu)
+          } else {
+            axiosConfig.get(`sections`)
+              .then(
+                res => {
+                  if (res?.data?.length) {
+                    const data = res.data;
+                    setData(data);
+                    const menu = {};
+                    setMenu({});
+                    const sections = data.map(item => {
+                      return {
+                        role: item.role,
+                        id: item.ID
+                      }
+                    });
+                    for (let sec of sections) {
+                      menu[sec.role] = []
+                    }
+                    setMenu(menu);
+                    console.log({menu})
+                  }
+                }
+              )
           }
         }
       )
@@ -166,7 +199,21 @@ const ChefMenu = ({chef}) => {
 
   useEffect(() => {
     updateData();
-  }, [])
+  }, []);
+
+  const addSection = () => {
+    setShowSection(true);
+  };
+
+  const handleSectionSubmit = () => {
+    axiosConfig.post(`sections`, {role: sectionData.name})
+      .then(
+        res => {
+          alert("Section has been created");
+          updateData();
+        }
+      )
+  }
 
   const handleRemove = (section, id) => {
     // const updatedMenu = {
@@ -187,6 +234,14 @@ const ChefMenu = ({chef}) => {
       <PageHeader pageTitle="Users" />
     </div>
       <h1>Chef's Menu</h1>
+      <button className="add-item-btn" onClick={addSection}>Add Section</button>
+      {showSection && <form onSubmit={handleSectionSubmit}>
+              <div className="form-group">
+                <label>Section name</label>
+                <input type="text" name="name" value={sectionData.name} onChange={handleSectionChange} required />
+              </div>
+              <button type="submit" className='add-item-btn'>Add</button>
+        </form>}
 
       {/* Render sections and items */}
       {Object.keys(menu).map(section => (
