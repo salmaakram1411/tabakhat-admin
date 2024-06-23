@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './SideNavbar.css';
 
-import { faAddressCard, faCartPlus, faCartShopping, faHouse, faPlus, faSignOutAlt, faUser, faUtensils } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faCartPlus, faCartShopping, faPlus, faSignOutAlt, faUser, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const onLogout = () => {
@@ -18,12 +18,12 @@ const AdminNavbar = () => {
             <span className="nav-icons">Admin Dashboard</span>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/admin/home">
             <FontAwesomeIcon icon={faHouse} className="navbar-icon" />
             <span className="nav-icons">Home</span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/admin/profile">
             <FontAwesomeIcon icon={faUser} className="navbar-icon" />

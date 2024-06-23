@@ -50,7 +50,7 @@ const ChefMenu = ({chef}) => {
         image: pancakeImage, // Reset image to default for new item
       });
       console.log({data, item})
-      const selected = data?.find(sec => sec.role === item);
+      const selected = data?.find(sec => sec.role ? (sec.role === item) : (sec.section_role === item));
       setSelectedSection(selected);
     }
     setModalMode(mode);
@@ -97,7 +97,7 @@ const ChefMenu = ({chef}) => {
       };
       const section = Object.keys(menu)[0]; // Modify as per your logic
       updatedMenu[section] = [...menu[section], newItem];
-      axiosConfig.post(`dishes`, {...newItem, sectionId: (selectedSection.section_id || selectedSection.ID)})
+      axiosConfig.post(`dishes`, {...newItem, sectionId: (selectedSection.sectionId || selectedSection.ID)})
       .then(
         res => {
           if (res?.data?.insertId) {
@@ -143,7 +143,7 @@ const ChefMenu = ({chef}) => {
   const updateData = () => {
     if (chef || chefId) {
 
-      const response = axiosConfig.get("sections-dishes" + "/" + (chef?.id ?? chefId))
+      axiosConfig.get("sections-dishes" + "/" + (chef?.id ?? chefId))
       .then(
         res => {
           if (res?.data?.length) {
@@ -151,25 +151,26 @@ const ChefMenu = ({chef}) => {
             setData(data);
             setMenu({});
             const menu = {};
+            console.log({data})
             const sections = data.map(item => {
               return {
-                role: item.role,
-                id: item.section_id
+                role: item.section_role,
+                id: item.sectionId
               }
-            });
+            })
             for (let sec of sections) {
               menu[sec.role] = data.filter(dish => {
-                return dish.section_id === sec.id
+                return dish.sectionId === sec.id
               }).map(item => {
                 return {
                   ...item,
                   id: item.ID
                 }
-              })
+              }).filter(item => item.id)
             }
             setMenu(menu)
           } else {
-            axiosConfig.get(`sections`)
+            axiosConfig.get(`sections/${chefId}`)
               .then(
                 res => {
                   if (res?.data?.length) {
@@ -205,12 +206,15 @@ const ChefMenu = ({chef}) => {
     setShowSection(true);
   };
 
-  const handleSectionSubmit = () => {
+  const handleSectionSubmit = (e) => {
+    e.preventDefault();
     axiosConfig.post(`sections`, {role: sectionData.name})
       .then(
         res => {
-          alert("Section has been created");
-          updateData();
+          setTimeout(() => {
+            updateData();
+            alert("Section has been created");
+          }, 10);
         }
       )
   }
@@ -244,8 +248,8 @@ const ChefMenu = ({chef}) => {
         </form>}
 
       {/* Render sections and items */}
-      {Object.keys(menu).map(section => (
-        <div key={section} className="menu-section">
+      {Object.keys(menu).map((section, i) => (
+        <div key={i} className="menu-section">
           <h2>{section.charAt(0).toUpperCase() + section.slice(1)}</h2>
           <table className="menu-table">
             <thead>
@@ -259,8 +263,8 @@ const ChefMenu = ({chef}) => {
               </tr>
             </thead>
             <tbody>
-              {menu[section].map(item => (
-                <tr key={item.id}>
+              {menu[section].map((item, index) => (
+                <tr key={index}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.description}</td>
